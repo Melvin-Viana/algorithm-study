@@ -1,23 +1,13 @@
 const getData = require('./getData');
-
-
-//Crates
-
-//Giant cargo crane
-
+//TODO: Refactor?
 const partOne = (input) => {
   let ans = '';
   let stacks = []
 
   const moveStack = (line, stacks) => {
-    line[1] = line[1].trim()
-    let boxes = Number(line[0].replace(/[^\d]/g, ""));
-    let column = line[1][0] - 1;
-    let newColumn = line[1][line[1].length-1] -1;
-    let i = 0
+    let [boxes, column, newColumn] = line.split('x').filter(x=>!!x).map(Number);
 
-
-    for (let i = 0; i < boxes && stacks[column].length; i++) stacks[newColumn].push(stacks[column].pop());
+    for (let i = 0; i < boxes && stacks[column-1].length; i++) stacks[newColumn-1].push(stacks[column-1].pop());
     return stacks;
   }
   let filledStacks = false;
@@ -38,12 +28,10 @@ const partOne = (input) => {
           stacks[index].unshift(currCrate);
         }
         index++;
-
       }
-
     }
      else {
-      stacks = moveStack(line.split(' from'), stacks)
+      stacks = moveStack(line.replace(/[^\d]/g, "x"), stacks)
     }
   }
   for(let i = 0; i < stacks.length; i++) {
@@ -57,16 +45,12 @@ const partTwo = (input) => {
   let stacks = []
 
   const moveStack = (line, stacks) => {
-    line[1] = line[1].trim()
-    let boxes = Number(line[0].replace(/[^\d]/g, ""));
-    let column = line[1][0] - 1;
-    let newColumn = line[1][line[1].length-1] -1;
-    let length = stacks[column].length;
-    const [start, end] = [ stacks[column].slice(0, length-boxes),stacks[column].slice(length - boxes, length)];
+    let [boxes, column, newColumn] = line.split('x').filter(x=>!!x).map(Number);
+    let length = stacks[column-1].length;
+    const [start, end] = [stacks[column-1].slice(0, -boxes),stacks[column-1].slice(-boxes)];
 
-    // //Take the last n boxes from column and place in new column
-    stacks[newColumn] = [...stacks[newColumn], ...end]
-    stacks[column] = start;
+    stacks[newColumn-1] = [...stacks[newColumn-1], ...end]
+    stacks[column-1] = start;
     return stacks;
   }
   let filledStacks = false;
@@ -87,12 +71,10 @@ const partTwo = (input) => {
           stacks[index].unshift(currCrate);
         }
         index++;
-
       }
-
     }
      else {
-      stacks = moveStack(line.split(' from'), stacks)
+      stacks = moveStack(line.replace(/[^\d]/g, "x"), stacks)
     }
   }
   for(let i = 0; i < stacks.length; i++) {
