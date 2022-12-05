@@ -1,7 +1,5 @@
 const getData = require('./getData');
 
-const input = getData('day2.txt');
-
 const rockPaperScissors = (input,codes) => {
   let score = 0;
 
@@ -55,5 +53,7 @@ const partTwoCodes = {
     'Z' : 7, //6 + Rock
   }
 }
-console.log(rockPaperScissors(input.split('\n'), partOneCodes));
-console.log(rockPaperScissors(input.split('\n'), partTwoCodes));
+
+
+getData('day2.txt', (input) => rockPaperScissors(input, partOneCodes))
+getData('day2.txt', (input) => rockPaperScissors(input, partTwoCodes))
