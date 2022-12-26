@@ -1,6 +1,11 @@
-const visited = {};
-for(let i = 0; i < 7; i++) visited[`${i},-1`] = true;
+
 const jetFlows = require('./getData')('day17.txt');
+const highestRocks = []
+const numOfRocks = 5;
+const numOfFlows = jetFlows.length;
+let visited = {};
+const patterns = {};
+
 class Rock {
   constructor(leftBoundary, rightBoundary, bottomBoundary, topBoundary, coords){
     this.leftBoundary = leftBoundary;
@@ -53,6 +58,7 @@ class Rock {
     return true;
   }
   checkBottom() {
+    if(this.bottomBoundary === 0) return false;
     for (let [x,y] of this.coords) {
       if(visited[`${x},${y}`]) return false;
     }
@@ -60,7 +66,6 @@ class Rock {
   }
 
 }
-
 
 const createRock = (rockIndex, height) => {
   //Different shapes of rock
@@ -74,37 +79,74 @@ const createRock = (rockIndex, height) => {
   ][rockIndex]
 }
 
-let jetFlowIndex = 0;
-let highestRock = 0;
-const numOfRocks = 5;
-const numOfFlows = jetFlows.length;
-const addRockToGrid = (rockNode) => {
+
+const addRockToGrid = (highestRock, rockNode, pattern) => {
+  let currPos = ''
   for (let [x,y] of rockNode.coords) {
     highestRock = Math.max(highestRock, y);
     visited[`${x},${y}`] = true;
+    currPos+=y
   }
+  pattern+=currPos;
+  return [highestRock, pattern];
 }
-for (let i = 0; i < 2022; i++) {
-  let rockIndex = i % numOfRocks;
+const partOne = rows => {
+  let jetFlowIndex = 0;
+  let highestRock = 0;
+  let pattern = '';
+  let count = 0;
+  for (let i = 0; i < rows; i++) {
+    let rockIndex = i % numOfRocks;
 
 
-  const currRock = createRock(rockIndex, highestRock + 4);
+    const currRock = createRock(rockIndex, highestRock + 4);
 
-    let falling = false
-    while (true) {
-      if(falling)
-      {
-        currRock.pushDown();
-        if(!currRock.checkBottom()) {
-          currRock.pushUp();
-          break;
+      let falling = false
+      while (true) {
+        if(falling)
+        {
+          currRock.pushDown();
+          if(!currRock.checkBottom()) {
+            currRock.pushUp();
+            break;
+          }
+        } else {
+          currRock.pushX(jetFlowIndex++)
         }
-      } else {
-        currRock.pushX(jetFlowIndex++)
-      }
-      falling = !falling
+        falling = !falling
 
-    }
-    addRockToGrid(currRock);
+      }
+      [highestRock, pattern] = addRockToGrid(highestRock, currRock, rockIndex, pattern);
+      count++;
+      if(count === 5) {
+        if(pattern in patterns) {
+          highestRocks.push([highestRock,i]);
+          // return
+        }  
+        patterns[pattern] = {i, highestRock}
+        pattern = '';
+        count = 0;
+      }
+      else {
+          pattern += ','
+        }
+        
+  }
+
+  return highestRock;
 }
-console.log({partOne: highestRock})
+
+
+//Ans one
+console.log(partOne(2022))
+visited = {};
+partOne(5000)
+const end = highestRocks.length;
+let highestRockDiff = highestRocks[end-1][0] - highestRocks[end-2][0]
+let cycleDiff = highestRocks[end-1][1] - highestRocks[end-2][1]; //Every this cycle there is 2659
+
+const numOfCycles = Math.floor(1000000000000/cycleDiff);
+const leftOff = 1000000000000 - (numOfCycles * 1725)
+visited = {};
+//Ans two
+console.log(numOfCycles*2659 + (partOne(leftOff)))  
