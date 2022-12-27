@@ -43,7 +43,7 @@ class Rock {
     this.bottomBoundary++;
   }
   checkRight(){
-    if(this.rightBoundary === 6) return;
+    if(this.rightBoundary === 6) return false;
     for (let [x,y] of this.coords) {
       if(x+1 === 7) return
       if(visited[`${x+1},${y}`] === true) return false;
@@ -103,36 +103,23 @@ const partOne = rows => {
 
       let falling = false
       while (true) {
-        if(falling)
-        {
+        if(falling) {
           currRock.pushDown();
-          if(!currRock.checkBottom()) {
-            currRock.pushUp();
-            break;
-          }
-        } else {
-          currRock.pushX(jetFlowIndex++)
-        }
+          if(!currRock.checkBottom()) { currRock.pushUp();break;}
+        } else { currRock.pushX(jetFlowIndex++) }
         falling = !falling
 
       }
       [highestRock, pattern] = addRockToGrid(highestRock, currRock, rockIndex, pattern);
       count++;
       if(count === 5) {
-        if(pattern in patterns) {
-          highestRocks.push([highestRock,i]);
-          // return
-        }  
+        if(pattern in patterns) { highestRocks.push([highestRock,i]);}
         patterns[pattern] = {i, highestRock}
         pattern = '';
         count = 0;
       }
-      else {
-          pattern += ','
-        }
-        
+      else { pattern += ','; }
   }
-
   return highestRock;
 }
 
@@ -149,4 +136,4 @@ const numOfCycles = Math.floor(1000000000000/cycleDiff);
 const leftOff = 1000000000000 - (numOfCycles * 1725)
 visited = {};
 //Ans two
-console.log(numOfCycles*2659 + (partOne(leftOff)))  
+console.log(numOfCycles*2659 + (partOne(leftOff)))
