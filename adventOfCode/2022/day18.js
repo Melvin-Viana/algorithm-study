@@ -1,27 +1,8 @@
-// 2
-// 1  x x
-// 0
-//  0 1 2 3 4
-
-
-// 3 different planes x, y, z
-
-// On each cube you need to find if it is connected to a cube
-  // 2D matrix connections would be 4 directions up, down, left, right
-  // 3̶D̶ m̶a̶t̶r̶i̶x̶ c̶o̶n̶n̶e̶c̶t̶i̶o̶n̶s̶ 4̶ m̶o̶r̶e̶ d̶i̶r̶e̶c̶t̶i̶o̶n̶s̶?̶ 6 directions
-
-  /**
-   *
-    1,1,1 => [1,2,1] , [1,0,1], [0,1,1], [2,1,1] ,[1,1,2], [1,1,0] up, down, left, right, z-left, z-right
-   *
-   */
-    console.time("ExecutionTime");
-
-const grid = new Set(); //xyz cubes: number of sides uncovered
 
 const cubes = require('./getData')('day18.txt').split('\n');
 const dirs = [[1,0,0],[-1,0,0],[0,1,0], [0,-1,0],[0,0,1],[0,0,-1]]
 let ans = 0;
+const grid = new Set();
 
 //Part One:
   // Each side has 6 surface area

@@ -1,9 +1,8 @@
 const fs = require('fs');
-const getData = (input, func) => {
+const getData = (input) => {
 
   try {
     const data = fs.readFileSync(input, 'utf8');
-    console.log(func(data.split('\n')));
     return data;
   } catch(e) {
   console.error(e);
