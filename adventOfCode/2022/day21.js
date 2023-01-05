@@ -49,51 +49,22 @@ const getHoomanVal = (monkeyVals, queue) => {
   return [monkeyVals['pvgq'] , monkeyVals['ngpl']]
 }
 let copy = {...monkeyVals}
-let [left, right] = getHoomanVal(copy,[...queue])
-let target = left - right;
-let low =0;
-let high = 100000000000000;
-let mid
-//Binary Serach
+let [left, right] = getHoomanVal({...copy},[...queue])
+console.log(left,right)
+let low = 0;
+let high = Math.abs(right-left);
+let mid = Math.floor((high-low)/2) + low
+//Binary search
 while(left !== right) {
   copy = {...monkeyVals}
-  mid = Math.floor((high-low)/2);
-  console.log(mid)
   copy['humn'] = mid;
-  [left, right] = getHoomanVal(copy,[...queue])
-  //GO higher
-  console.log(left,right)
-  if(left < right) {
-    low = mid+1;
-  } else {
-    //Go lower
-    high = mid-1;
+  [left, right] = getHoomanVal(copy,[...queue]);
+  if(left > right) {
+    low = mid + 1;
+  } else if (left< right) {
+    high = mid -1;
   }
-  console.log(low,high)
+  mid = Math.floor((high-low)/2) + low;
 }
-const paths = {
-  'pvgq':'',
-  'ngpl':''
-}
-// // const paths = []
-// let i = 0;
-const findEndOfPath = (name, visited={}, path=name, parent=name) => {
-  if(visited[name] || typeof monkeyVals2[name] === 'number') {
-    if(paths[parent].length < path.length && name === 'humn') paths[parent] = path;
-    if(parent === 'ngpl' && paths[parent].length < path.length) paths[parent] = path
-    return;
-  }
-  visited[name] = true;
-  findEndOfPath(monkeyVals2[name].monkey1, {...visited}, path+','+monkeyVals2[name].monkey1,parent)
-  findEndOfPath(monkeyVals2[name].monkey2, {...visited}, path+','+monkeyVals2[name].monkey2,parent)
-}
-// // console.log(monkeyVals2['root'])
-
-
-// let target = monkeyVals[monkeyVals2['root'].monkey2];
-queue.push({name:monkeyVals2['root'].monkey1,depth:0})
-
-let dontGohere = new Set(paths['pvgq'].split(','))
-let currDepth = 0;
-
-//Do binary search for solution
+ 
+console.log(mid);
