@@ -7,14 +7,10 @@ const insertonSort = (arr) => {
     let curr = arr[i];
     let j = i -1;
     while (j >= 0 && arr[j] > curr)  {
-
-      //Compare element to the element before it
       arr[j+1] = arr[j];
       j--;
     }
-    console.log(arr)
     arr[j+1]  = curr;
-    console.log(arr)
   }
   return arr;
 }

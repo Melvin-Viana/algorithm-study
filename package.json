@@ -1,0 +1,23 @@
+{
+  "name": "algorithm-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "findMinimumRotated-binarySearch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Melvin-Viana/algorithm-study.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Melvin-Viana/algorithm-study/issues"
+  },
+  "homepage": "https://github.com/Melvin-Viana/algorithm-study#readme",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
+}
