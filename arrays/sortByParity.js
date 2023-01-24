@@ -1,0 +1,1 @@
+const sortArrayByParity = (a) => [...a.filter(num=>!(num%2)) , ...a.filter(num=>num%2)]
