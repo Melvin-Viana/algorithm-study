@@ -1,12 +1,15 @@
+//Count numbers from 1 to n
+// Count all non-banned numbers
+// that sum up to maxSum, starting from 1
+// Greedy:
 const maxCount = (banned, n, maxSum) => {
-  const chosen =  new Array(n+1)
-  chosen.fill(false);
-
+  const chosen = Array(n+1).fill(false);
   for (let num of banned) chosen[num] =true;
   let count = 0;
   let sum = 0;
-  for (let i = 1; i < n+1; i++) {
-      if(!chosen[i] && sum + i <= maxSum) {
+  for (let i = 1; i <= n; i++) {
+
+    if(!chosen[i] && sum + i <= maxSum) {
           count++
           sum+=i;
       }
