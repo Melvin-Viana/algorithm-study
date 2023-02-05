@@ -4,7 +4,7 @@
   // Resort
   // O((logn)^k)
 
-// Max Heap:
+// Max Heap(Priority Queue):
   //AVAILABLE In leetcode environment:
   //https://support.leetcode.com/hc/en-us/articles/360011833974-What-are-the-environments-for-the-programming-languages-
   // new MaxPriorityQueue()
